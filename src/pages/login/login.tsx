@@ -9,10 +9,10 @@ const Login = () => {
     // Verificar desde Redux (fuente de verdad única)
     const user = useSelector((state: any) => state.user);
 
-    // Si el usuario ya está autenticado, redirigir al POS
+    // Si el usuario ya está autenticado, redirigir al Home
     useEffect(() => {
         if (user?.token && user?.id) {
-            navigate('/pos', { replace: true });
+            navigate('/home', { replace: true });
         }
     }, [user, navigate]);
 

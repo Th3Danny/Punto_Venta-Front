@@ -3,7 +3,7 @@ import { ThemeProvider } from '@mui/material';
 import { SnackbarProvider } from 'notistack';
 import React, { lazy, Suspense } from 'react';
 import { Provider } from 'react-redux';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import './App.css';
 import { AppContainer } from './styled-components';
 import { theme } from '@/theme';
@@ -15,7 +15,7 @@ import { Box } from '@mui/material';
 const Login = lazy(() => import('@/pages/login/login'));
 const Register = lazy(() => import('@/pages/register/register'));
 const Home = lazy(() => import('@/pages/home/home'));
-const POS = lazy(() => import('@/pages/sales/POS'));
+const Sales = lazy(() => import('@/pages/sales/sales'));
 
 const App = () => {
   return (
@@ -45,13 +45,15 @@ const App = () => {
                           } 
                         />
                         <Route 
-                          path="/pos" 
+                          path="/sales" 
                           element={
                             <ProtectedRoute>
-                              <POS />
+                              <Sales />
                             </ProtectedRoute>
                           } 
                         />
+                        {/* Compatibility: keep /pos redirecting to /sales if needed */}
+                        <Route path="/pos" element={<Navigate to="/sales" replace />} />
                       </Routes>
                     </Box>
 

@@ -5,7 +5,7 @@ import { useFetchAndLoad } from '@/hooks';
 import { createUser } from '@/redux/states/user';
 import { registerService } from '@/services/auth.service';
 import { registerAdapter } from '../adapters/register.adapter';
-import type { RegisterCredentials } from '@/services/auth.service';
+import type { RegisterCredentials } from '@/models';
 import { useSnackbar } from 'notistack';
 
 export const useRegister = () => {

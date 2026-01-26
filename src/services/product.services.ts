@@ -1,4 +1,4 @@
-import type { Product, AxiosCall } from '@/models';
+import type { Product, AxiosCall, CreateProductData, ProductResponse } from '@/models';
 import { loadAbort } from '@/utils';
 import apiAxiosInstance from './api.service';
 
@@ -35,3 +35,15 @@ export const getProductById = (id: number): AxiosCall<Product> => {
         controller
     };
 };
+
+// Crear un nuevo producto
+export const createProduct = (productData: CreateProductData): AxiosCall<ProductResponse> => {
+    const controller = loadAbort();
+    return {
+        call: apiAxiosInstance.post<ProductResponse>('/products', productData, {
+            signal: controller.signal
+        }),
+        controller
+    };
+}
+    

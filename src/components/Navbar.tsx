@@ -39,7 +39,7 @@ export const Navbar = () => {
                     Cafetería KFE
                 </Typography>
 
-                <Button color="inherit" onClick={() => navigate('/pos')}>
+                <Button color="inherit" onClick={() => navigate('/sales')}>
                     Punto de Venta
                 </Button>
 
@@ -52,7 +52,7 @@ export const Navbar = () => {
                 </Button>
 
                 {/* Badge con cantidad de items en carrito */}
-                <IconButton color="inherit" onClick={() => navigate('/pos')}>
+                <IconButton color="inherit" onClick={() => navigate('/sales')}>
                     <Badge badgeContent={cartItemsCount} color="error">
                         <ShoppingCart />
                     </Badge>

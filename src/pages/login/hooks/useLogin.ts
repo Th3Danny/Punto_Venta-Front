@@ -5,7 +5,7 @@ import { useFetchAndLoad } from '@/hooks';
 import { createUser } from '@/redux/states/user';
 import { loginService } from '@/services/auth.service';
 import { loginAdapter } from '../adapters/login.adapter';
-import type { LoginCredentials } from '@/services/auth.service';
+import type { LoginCredentials } from '@/models';
 import { useSnackbar } from 'notistack';
 
 export const useLogin = () => {

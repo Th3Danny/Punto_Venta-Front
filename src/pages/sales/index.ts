@@ -1,1 +1,1 @@
-export { default as POS } from './POS';
+export { default as Sales } from './sales';

@@ -19,7 +19,7 @@ import {
 import type { Product, CartItem } from '@/models';
 import { ProductSearch, ProductList, Cart, CartSummary } from './components';
 
-export const POS = () => {
+export const Sales = () => {
     const dispatch = useDispatch();
     const { enqueueSnackbar } = useSnackbar();
     const { loading, callEndpoint } = useFetchAndLoad();
@@ -156,4 +156,4 @@ export const POS = () => {
     );
 };
 
-export default POS;
+export default Sales;

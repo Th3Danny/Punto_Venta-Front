@@ -1,11 +1,13 @@
-import { Box, Typography, Paper, Grid, Card, CardContent } from '@mui/material';
+import { Box, Typography, Grid, Card, CardContent, CircularProgress } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '@mui/material';
+import { useProducts } from './hooks/useProducts';
+import { ProductCard } from './components/ProductCard';
 
 const Home = () => {
     const navigate = useNavigate();
     const user = useSelector((state: any) => state.user);
+    const { products, loading } = useProducts();
 
     return (
         <Box sx={{ padding: 4, maxWidth: 1200, margin: '0 auto' }}>
@@ -15,13 +17,14 @@ const Home = () => {
             
             {user && user.id && (
                 <Typography variant="body1" color="textSecondary" gutterBottom>
-                    Usuario ID: {user.id}
+                    Usuario: {user.name || user.email}
                 </Typography>
             )}
 
-            <Grid container spacing={3} sx={{ marginTop: 2 }}>
+            {/* Sección de Navegación */}
+            <Grid container spacing={3} sx={{ marginTop: 2, marginBottom: 4 }}>
                 <Grid item xs={12} md={4}>
-                    <Card sx={{ height: '100%', cursor: 'pointer' }} onClick={() => navigate('/pos')}>
+                    <Card sx={{ height: '100%', cursor: 'pointer' }} onClick={() => navigate('/sales')}>
                         <CardContent>
                             <Typography variant="h5" component="h2" gutterBottom>
                                 Punto de Venta
@@ -59,6 +62,29 @@ const Home = () => {
                     </Card>
                 </Grid>
             </Grid>
+
+            {/* Sección de Productos Destacados */}
+            <Typography variant="h5" component="h2" gutterBottom fontWeight="bold" sx={{ mt: 4 }}>
+                Productos Disponibles
+            </Typography>
+
+            {loading ? (
+                <Box sx={{ display: 'flex', justifyContent: 'center', padding: 4 }}>
+                    <CircularProgress />
+                </Box>
+            ) : products.length > 0 ? (
+                <Grid container spacing={3} sx={{ marginTop: 2 }}>
+                    {products.slice(0, 6).map((product) => (
+                        <Grid item xs={12} sm={6} md={4} key={product.id}>
+                            <ProductCard product={product} />
+                        </Grid>
+                    ))}
+                </Grid>
+            ) : (
+                <Typography variant="body1" color="textSecondary" sx={{ mt: 2 }}>
+                    No hay productos disponibles
+                </Typography>
+            )}
         </Box>
     );
 };

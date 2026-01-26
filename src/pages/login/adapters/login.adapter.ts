@@ -1,5 +1,4 @@
-import type { BackendAuthResponse } from '@/services/auth.service';
-import type { User } from '@/models';
+import type { BackendAuthResponse, User } from '@/models';
 
 // Función para decodificar JWT (sin verificar firma, solo para leer datos)
 const decodeJWT = (token: string): any => {
