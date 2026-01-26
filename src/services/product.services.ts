@@ -1,23 +1,26 @@
-import type { Product, AxiosCall, CreateProductData, ProductResponse } from '@/models';
+import type { AxiosCall, ProductCredentials, BackendProductResponse, CreateProductCredentials } from '@/models';
 import { loadAbort } from '@/utils';
 import apiAxiosInstance from './api.service';
 
 // Obtener todos los productos activos
-export const getProducts = (): AxiosCall<Product[]> => {
+export const getProducts = (params?: Partial<ProductCredentials>): AxiosCall<BackendProductResponse> => {
     const controller = loadAbort();
     return {
-        call: apiAxiosInstance.get<Product[]>('/products', {
+        call: apiAxiosInstance.get<BackendProductResponse>('/products', {
+            params,
             signal: controller.signal
         }),
         controller
     };
 };
 
+
+
 // Buscar productos por nombre
-export const searchProducts = (query: string): AxiosCall<Product[]> => {
+export const searchProducts = (query: string): AxiosCall<BackendProductResponse> => {
     const controller = loadAbort();
     return {
-        call: apiAxiosInstance.get<Product[]>('/products/search', {
+        call: apiAxiosInstance.get<BackendProductResponse>('/products/search', {
             params: { query },
             signal: controller.signal
         }),
@@ -26,24 +29,25 @@ export const searchProducts = (query: string): AxiosCall<Product[]> => {
 };
 
 // Obtener un producto por ID
-export const getProductById = (id: number): AxiosCall<Product> => {
+export const getProductById = (id: number): AxiosCall<BackendProductResponse> => {
     const controller = loadAbort();
     return {
-        call: apiAxiosInstance.get<Product>(`/products/${id}`, {
+        call: apiAxiosInstance.get<BackendProductResponse>(`/products/${id}`, {
             signal: controller.signal
         }),
         controller
     };
 };
 
+
 // Crear un nuevo producto
-export const createProduct = (productData: CreateProductData): AxiosCall<ProductResponse> => {
+export const createProduct = (productData: CreateProductCredentials): AxiosCall<BackendProductResponse> => {
     const controller = loadAbort();
     return {
-        call: apiAxiosInstance.post<ProductResponse>('/products', productData, {
+        call: apiAxiosInstance.post<BackendProductResponse>('/products', productData, {
             signal: controller.signal
         }),
         controller
     };
-}
-    
+};
+

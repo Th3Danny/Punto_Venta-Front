@@ -1,6 +1,9 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Container, Grid, Paper, Typography, Box } from '@mui/material';
+import { Container, Grid, Paper, Typography, Box, Button } from '@mui/material';
+import axios from 'axios';
+
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { useSnackbar } from 'notistack';
 import { useFetchAndLoad } from '@/hooks';
 import { getProducts } from '@/services/product.services';
@@ -42,13 +45,29 @@ export const Sales = () => {
     const loadProducts = async () => {
         try {
             const response = await callEndpoint(getProducts());
-            const adaptedProducts = productsAdapter(response.data);
+
+            // Verificamos si la respuesta tiene la estructura { data: [productos], ... }
+            // o si es directamente el array de productos.
+            const responseData = response.data;
+            const productList = Array.isArray(responseData.data)
+                ? responseData.data
+                : (Array.isArray(responseData) ? responseData : []);
+
+            const adaptedProducts = productsAdapter(productList);
             setProducts(adaptedProducts);
             setFilteredProducts(adaptedProducts);
+
+            // Mostrar mensaje de éxito si existe en el envoltorio de la respuesta
+            if (responseData.message && responseData.success) {
+                enqueueSnackbar(responseData.message, { variant: 'success' });
+            }
         } catch (error: any) {
+
+            if (axios.isCancel(error)) return;
             enqueueSnackbar('Error al cargar productos', { variant: 'error' });
             console.error('Error loading products:', error);
         }
+
     };
 
     // Manejar búsqueda de productos con filtrado local
@@ -107,18 +126,38 @@ export const Sales = () => {
 
             enqueueSnackbar('Venta procesada exitosamente', { variant: 'success' });
         } catch (error: any) {
-            enqueueSnackbar('Error al procesar la venta', { variant: 'error' });
+            if (axios.isCancel(error)) return;
+            const errorMessage = error.response?.data?.message || 'Error al procesar la venta';
+            enqueueSnackbar(errorMessage, { variant: 'error' });
             console.error('Error processing sale:', error);
         } finally {
+
             setProcessingCheckout(false);
         }
     };
+
+    const user = useSelector((state: any) => state.user);
+    const navigate = useNavigate();
+    const role = (user?.role || '').toString().toUpperCase();
 
     return (
         <Container maxWidth="xl" sx={{ py: 4 }}>
             <Typography variant="h4" component="h1" gutterBottom>
                 Punto de Venta
             </Typography>
+
+            {/* Acciones por rol */}
+            <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
+                {(role === 'MANAGER' || role === 'ADMIN') && (
+                    <>
+                        <Button variant="contained" onClick={() => navigate('/product')}>Administrar Productos</Button>
+                        <Button variant="outlined" onClick={() => navigate('/reports')}>Ver Reportes</Button>
+                    </>
+                )}
+                {role === 'ADMIN' && (
+                    <Button variant="text" onClick={() => navigate('/users')}>Administrar Usuarios</Button>
+                )}
+            </Box>
 
             <Grid container spacing={3}>
                 {/* Columna izquierda: Búsqueda y lista de productos */}
