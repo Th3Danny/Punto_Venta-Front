@@ -16,6 +16,10 @@ const Login = lazy(() => import('@/pages/login/login'));
 const Register = lazy(() => import('@/pages/register/register'));
 const Home = lazy(() => import('@/pages/home/home'));
 const Sales = lazy(() => import('@/pages/sales/sales'));
+const Reports = lazy(() => import('@/pages/reports/reports'));
+const Product = lazy(() => import('@/pages/product/product'));
+const Users = lazy(() => import('@/pages/users/users'));
+const SalesDetails = lazy(() => import('@/pages/sales-details/sales-details'));
 
 const App = () => {
   return (
@@ -47,10 +51,46 @@ const App = () => {
                         <Route 
                           path="/sales" 
                           element={
-                            <ProtectedRoute>
+                            <ProtectedRoute allowedRoles={["ADMIN","MANAGER","CASHIER"]}>
                               <Sales />
                             </ProtectedRoute>
                           } 
+                        />
+
+                        <Route
+                          path="/reports"
+                          element={
+                            <ProtectedRoute allowedRoles={["ADMIN","MANAGER"]}>
+                              <Reports />
+                            </ProtectedRoute>
+                          }
+                        />
+
+                        <Route
+                          path="/product"
+                          element={
+                            <ProtectedRoute allowedRoles={["ADMIN","MANAGER"]}>
+                              <Product />
+                            </ProtectedRoute>
+                          }
+                        />
+
+                        <Route
+                          path="/users"
+                          element={
+                            <ProtectedRoute allowedRoles={["ADMIN"]}>
+                              <Users />
+                            </ProtectedRoute>
+                          }
+                        />
+
+                        <Route
+                          path="/sales-details"
+                          element={
+                            <ProtectedRoute allowedRoles={["ADMIN","MANAGER","CASHIER"]}>
+                              <SalesDetails />
+                            </ProtectedRoute>
+                          }
                         />
                         {/* Compatibility: keep /pos redirecting to /sales if needed */}
                         <Route path="/pos" element={<Navigate to="/sales" replace />} />

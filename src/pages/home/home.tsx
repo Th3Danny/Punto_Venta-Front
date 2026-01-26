@@ -37,7 +37,7 @@ const Home = () => {
                 </Grid>
 
                 <Grid item xs={12} md={4}>
-                    <Card sx={{ height: '100%', cursor: 'pointer' }} onClick={() => navigate('/products')}>
+                    <Card sx={{ height: '100%', cursor: 'pointer' }} onClick={() => navigate('/product')}>
                         <CardContent>
                             <Typography variant="h5" component="h2" gutterBottom>
                                 Productos
