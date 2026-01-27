@@ -16,12 +16,12 @@ apiAxiosInstance.interceptors.request.use(
         // Obtener token del store de Redux (fuente de verdad única)
         const state = store.getState();
         const token = state.user?.token;
-        
+
         // Si hay token, agregarlo al header
         if (token && config.headers) {
             config.headers.Authorization = `Bearer ${token}`;
         }
-        
+
         return config;
     },
     (error: AxiosError) => {
@@ -52,7 +52,7 @@ apiAxiosInstance.interceptors.response.use(
 
             switch (status) {
                 case 403:
-                    error.message = data?.message || 'Acceso denegado';
+                    error.message = data?.message || 'No tienes permisos para realizar esta acción';
                     break;
                 case 404:
                     error.message = data?.message || 'Recurso no encontrado';

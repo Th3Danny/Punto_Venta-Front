@@ -60,9 +60,10 @@ export const Cart = ({ items, onIncrement, onDecrement, onRemove }: CartProps) =
                             >
                                 <ListItemText
                                     primary={item.product.name}
+                                    secondaryTypographyProps={{ component: 'div' }} // Evita error de anidamiento <p> en <p>
                                     secondary={
                                         <Box>
-                                            <Typography variant="body2" color="text.secondary">
+                                            <Typography component="div" variant="body2" color="text.secondary">
                                                 ${item.product.price.toFixed(2)} c/u
                                             </Typography>
 
@@ -76,7 +77,7 @@ export const Cart = ({ items, onIncrement, onDecrement, onRemove }: CartProps) =
                                                     <Remove fontSize="small" />
                                                 </IconButton>
 
-                                                <Typography variant="body1" sx={{ minWidth: 30, textAlign: 'center' }}>
+                                                <Typography component="span" variant="body1" sx={{ minWidth: 30, textAlign: 'center' }}>
                                                     {item.quantity}
                                                 </Typography>
 
@@ -87,13 +88,14 @@ export const Cart = ({ items, onIncrement, onDecrement, onRemove }: CartProps) =
                                                     <Add fontSize="small" />
                                                 </IconButton>
 
-                                                <Typography variant="body1" sx={{ ml: 2, fontWeight: 'bold' }}>
+                                                <Typography component="span" variant="body1" sx={{ ml: 2, fontWeight: 'bold' }}>
                                                     ${item.subtotal.toFixed(2)}
                                                 </Typography>
                                             </Box>
                                         </Box>
                                     }
                                 />
+
                             </ListItem>
                         </Box>
                     ))}

@@ -115,8 +115,9 @@ export const Sales = () => {
 
         setProcessingCheckout(true);
         try {
-            // Convertir carrito a formato de venta
-            const saleData = cartToSaleAdapter(cartItems);
+            // Convertir carrito a formato de venta (pasando el ID del usuario actual)
+            const saleData = cartToSaleAdapter(cartItems, user.id);
+
 
             // Enviar venta al backend
             await callEndpoint(createSale(saleData));
@@ -127,7 +128,9 @@ export const Sales = () => {
             enqueueSnackbar('Venta procesada exitosamente', { variant: 'success' });
         } catch (error: any) {
             if (axios.isCancel(error)) return;
-            const errorMessage = error.response?.data?.message || 'Error al procesar la venta';
+            const errorMessage = error.response?.status === 403
+                ? (error.response?.data?.message || 'No estás autorizado para realizar esta acción')
+                : (error.response?.data?.message || error.message || 'Error al procesar la venta');
             enqueueSnackbar(errorMessage, { variant: 'error' });
             console.error('Error processing sale:', error);
         } finally {
@@ -148,7 +151,7 @@ export const Sales = () => {
 
             {/* Acciones por rol */}
             <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
-                {(role === 'MANAGER' || role === 'ADMIN') && (
+                {(role === 'MANAGER' || role === 'GERENTE' || role === 'ADMIN') && (
                     <>
                         <Button variant="contained" onClick={() => navigate('/product')}>Administrar Productos</Button>
                         <Button variant="outlined" onClick={() => navigate('/reports')}>Ver Reportes</Button>
