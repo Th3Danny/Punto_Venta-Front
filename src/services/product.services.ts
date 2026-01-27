@@ -14,8 +14,6 @@ export const getProducts = (params?: Partial<ProductCredentials>): AxiosCall<Bac
     };
 };
 
-
-
 // Buscar productos por nombre
 export const searchProducts = (query: string): AxiosCall<BackendProductResponse> => {
     const controller = loadAbort();
@@ -50,4 +48,24 @@ export const createProduct = (productData: CreateProductCredentials): AxiosCall<
         controller
     };
 };
+// Actualizar un producto
+export const updateProduct = (id: number, productData: Partial<CreateProductCredentials>): AxiosCall<BackendProductResponse> => {
+    const controller = loadAbort();
+    return {
+        call: apiAxiosInstance.put<BackendProductResponse>(`/products/${id}`, productData, {
+            signal: controller.signal
+        }),
+        controller
+    };
+};
 
+// Eliminar un producto (o desactivar)
+export const deleteProduct = (id: number): AxiosCall<BackendProductResponse> => {
+    const controller = loadAbort();
+    return {
+        call: apiAxiosInstance.delete<BackendProductResponse>(`/products/${id}`, {
+            signal: controller.signal
+        }),
+        controller
+    };
+};

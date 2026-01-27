@@ -40,27 +40,27 @@ const App = () => {
                       <Routes>
                         <Route path="/" element={<Login />} />
                         <Route path="/register" element={<Register />} />
-                        <Route 
-                          path="/home" 
+                        <Route
+                          path="/home"
                           element={
                             <ProtectedRoute>
                               <Home />
                             </ProtectedRoute>
-                          } 
+                          }
                         />
-                        <Route 
-                          path="/sales" 
+                        <Route
+                          path="/sales"
                           element={
-                            <ProtectedRoute allowedRoles={["ADMIN","MANAGER","CASHIER"]}>
+                            <ProtectedRoute allowedRoles={["ADMIN", "MANAGER", "CASHIER", "GERENTE", "CAJERO"]}>
                               <Sales />
                             </ProtectedRoute>
-                          } 
+                          }
                         />
 
                         <Route
                           path="/reports"
                           element={
-                            <ProtectedRoute allowedRoles={["ADMIN","MANAGER"]}>
+                            <ProtectedRoute allowedRoles={["ADMIN", "MANAGER", "GERENTE"]}>
                               <Reports />
                             </ProtectedRoute>
                           }
@@ -69,7 +69,7 @@ const App = () => {
                         <Route
                           path="/product"
                           element={
-                            <ProtectedRoute allowedRoles={["ADMIN","MANAGER"]}>
+                            <ProtectedRoute allowedRoles={["ADMIN", "MANAGER", "GERENTE"]}>
                               <Product />
                             </ProtectedRoute>
                           }
@@ -87,7 +87,7 @@ const App = () => {
                         <Route
                           path="/sales-details"
                           element={
-                            <ProtectedRoute allowedRoles={["ADMIN","MANAGER","CASHIER"]}>
+                            <ProtectedRoute allowedRoles={["ADMIN", "MANAGER", "CASHIER", "GERENTE", "CAJERO"]}>
                               <SalesDetails />
                             </ProtectedRoute>
                           }
