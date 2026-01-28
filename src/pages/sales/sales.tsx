@@ -54,8 +54,10 @@ export const Sales = () => {
                 : (Array.isArray(responseData) ? responseData : []);
 
             const adaptedProducts = productsAdapter(productList);
-            setProducts(adaptedProducts);
-            setFilteredProducts(adaptedProducts);
+            // Solo mostrar productos activos en el POS
+            const activeProducts = adaptedProducts.filter(p => p.active);
+            setProducts(activeProducts);
+            setFilteredProducts(activeProducts);
 
             // Mostrar mensaje de éxito si existe en el envoltorio de la respuesta
             if (responseData.message && responseData.success) {
@@ -86,6 +88,15 @@ export const Sales = () => {
 
     // Agregar producto al carrito
     const handleAddToCart = (product: Product) => {
+        // Verificar si ya hay items en el carrito para este producto
+        const cartItem = cartItems.find(item => item.product.id === product.id);
+        const currentQty = cartItem ? cartItem.quantity : 0;
+
+        if (currentQty >= product.stock) {
+            enqueueSnackbar('No hay suficiente stock disponible', { variant: 'error' });
+            return;
+        }
+
         dispatch(addToCart(product));
         enqueueSnackbar(`${product.name} agregado al carrito`, { variant: 'success' });
     };
@@ -124,6 +135,9 @@ export const Sales = () => {
 
             // Limpiar carrito
             dispatch(clearCart());
+
+            // Recargar productos para actualizar stock real desde el servidor
+            await loadProducts();
 
             enqueueSnackbar('Venta procesada exitosamente', { variant: 'success' });
         } catch (error: any) {

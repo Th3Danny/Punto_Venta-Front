@@ -4,12 +4,12 @@ import { type ReactNode } from 'react';
 
 interface ProtectedRouteProps {
     children: ReactNode;
-    // Lista opcional de roles permitidos (ej: ['ADMIN','MANAGER'])
+  
     allowedRoles?: string[];
 }
 
 export const ProtectedRoute = ({ children, allowedRoles }: ProtectedRouteProps) => {
-    // Verificar usuario y token desde Redux (fuente de verdad única)
+    // Verificar usuario y token desde Redux 
     const user = useSelector((state: any) => state.user);
 
     // Si no hay usuario o token, redirigir al login

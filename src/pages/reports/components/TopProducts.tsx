@@ -1,3 +1,4 @@
+import type { TopProductsProps } from '@/models/report.models';
 import {
     Table,
     TableBody,
@@ -9,14 +10,6 @@ import {
     Typography
 } from '@mui/material';
 
-interface TopProduct {
-    name: string;
-    quantity: number;
-}
-
-interface TopProductsProps {
-    products: TopProduct[];
-}
 
 export const TopProducts = ({ products }: TopProductsProps) => {
     return (

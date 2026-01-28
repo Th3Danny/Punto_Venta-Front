@@ -29,6 +29,7 @@ export const ProductTable = ({ products, onEdit, onDelete }: ProductTableProps) 
                         <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Nombre</TableCell>
                         <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Descripción</TableCell>
                         <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Precio</TableCell>
+                        <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Stock</TableCell>
                         <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Estado</TableCell>
                         <TableCell sx={{ color: 'white', fontWeight: 'bold', textAlign: 'center' }}>Acciones</TableCell>
                     </TableRow>
@@ -47,6 +48,7 @@ export const ProductTable = ({ products, onEdit, onDelete }: ProductTableProps) 
                                 <TableCell sx={{ fontWeight: 'medium' }}>{product.name}</TableCell>
                                 <TableCell>{product.description || 'Sin descripción'}</TableCell>
                                 <TableCell>${Number(product.price).toFixed(2)}</TableCell>
+                                <TableCell>{product.stock}</TableCell>
                                 <TableCell>
                                     <Chip
                                         label={product.active ? "Activo" : "Inactivo"}

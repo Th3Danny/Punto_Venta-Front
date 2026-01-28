@@ -5,6 +5,7 @@ export interface ProductCredentials {
     description: string;
     price: number;
     active: boolean;
+    stock: number;
 }
 
 export type Product = ProductCredentials;
@@ -15,6 +16,7 @@ export interface CreateProductCredentials {
     name: string;
     description: string;
     price: number;
+    stock: number;
     active: boolean;
 }
 

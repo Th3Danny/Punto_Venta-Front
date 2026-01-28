@@ -10,7 +10,7 @@ import {
 import { Refresh } from '@mui/icons-material';
 import { useReports } from './hooks/useReports';
 import { ReportSummary, TopProducts, SalesChart } from './components';
-import { useEffect } from 'react';
+
 
 const Reports = () => {
     const {
@@ -20,10 +20,6 @@ const Reports = () => {
         loading,
         loadReports
     } = useReports();
-
-    useEffect(() => {
-        loadReports();
-    }, [loadReports]);
 
     const totalRevenue = sales.reduce((sum, s) => sum + Number(s.total), 0);
     const avgTicket = sales.length > 0 ? totalRevenue / sales.length : 0;

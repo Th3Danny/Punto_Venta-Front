@@ -1,24 +1,74 @@
+import type { SalesChartProps } from '@/models';
 import { Paper, Typography, Box } from '@mui/material';
 import {
-    LineChart,
-    Line,
-    XAxis,
-    YAxis,
-    CartesianGrid,
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    Title,
     Tooltip,
-    ResponsiveContainer
-} from 'recharts';
+    Legend,
+    Filler
+} from 'chart.js';
+import { Line } from 'react-chartjs-2';
 
-interface ChartData {
-    date: string;
-    total: number;
-}
+// Registrar componentes de Chart.js
+ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    Title,
+    Tooltip,
+    Legend,
+    Filler
+);
 
-interface SalesChartProps {
-    data: ChartData[];
-}
+
 
 export const SalesChart = ({ data }: SalesChartProps) => {
+    const chartData = {
+        labels: data.map(d => d.date || ''),
+        datasets: [
+            {
+                label: 'Ventas ($)',
+                data: data.map(d => d.total || 0),
+                fill: true,
+                backgroundColor: 'rgba(25, 118, 210, 0.1)',
+                borderColor: '#1976d2',
+                tension: 0.4,
+                pointRadius: 4,
+                pointBackgroundColor: '#1976d2',
+            },
+        ],
+    };
+
+    const options = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                display: false,
+            },
+            tooltip: {
+                callbacks: {
+                    label: (context: any) => {
+                        return `Venta: $${Number(context.raw || 0).toFixed(2)}`;
+                    }
+                }
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                ticks: {
+                    callback: (value: any) => `$${value}`
+                }
+            }
+        }
+    };
+
     return (
         <Paper sx={{ p: 3, height: 400 }}>
             <Typography variant="h6" gutterBottom color="primary">
@@ -30,24 +80,7 @@ export const SalesChart = ({ data }: SalesChartProps) => {
                         <Typography color="text.secondary">No hay datos para mostrar la gráfica</Typography>
                     </Box>
                 ) : (
-                    <ResponsiveContainer width="100%" height="100%">
-                        <LineChart data={data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis dataKey="date" />
-                            <YAxis />
-                            <Tooltip
-                                formatter={(value: number) => [`$${value.toFixed(2)}`, 'Venta']}
-                                labelStyle={{ color: 'black' }}
-                            />
-                            <Line
-                                type="monotone"
-                                dataKey="total"
-                                stroke="#1976d2"
-                                strokeWidth={3}
-                                activeDot={{ r: 8 }}
-                            />
-                        </LineChart>
-                    </ResponsiveContainer>
+                    <Line data={chartData} options={options} />
                 )}
             </Box>
         </Paper>

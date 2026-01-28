@@ -76,7 +76,7 @@ export const useProductManager = () => {
                 }
             }
             handleCloseDialog();
-            loadProducts(); // Recargar lista
+            loadProducts(); 
         } catch (error: any) {
             if (axios.isCancel(error)) return;
             const msg = error.response?.status === 403
@@ -94,7 +94,7 @@ export const useProductManager = () => {
             const response = await callEndpoint(deleteProduct(id));
             if (response.data.success) {
                 enqueueSnackbar(response.data.message || 'Producto eliminado', { variant: 'success' });
-                loadProducts(); // Recargar lista
+                loadProducts(); 
             }
         } catch (error: any) {
             if (axios.isCancel(error)) return;

@@ -1,6 +1,6 @@
 import type { BackendAuthResponse, User } from '@/models';
 
-// Función para decodificar JWT (sin verificar firma, solo para leer datos)
+// Función para decodificar JWT 
 const decodeJWT = (token: string): any => {
     try {
         const base64Url = token.split('.')[1];
@@ -28,7 +28,7 @@ export const loginAdapter = (backendResponse: BackendAuthResponse): User => {
 
     return {
         id: userId,
-        name: email.split('@')[0] || `User ${userId}`, // Usa la parte antes del @ como nombre
+        name: email.split('@')[0] || `User ${userId}`,
         email: email,
         token: token,
         role: role

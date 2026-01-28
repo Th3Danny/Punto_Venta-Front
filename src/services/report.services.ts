@@ -2,11 +2,7 @@ import type { AxiosCall, BackendSalesResponse } from '@/models';
 import { loadAbort } from '@/utils';
 import apiAxiosInstance from './api.service';
 
-/**
- * Servicio para obtener reportes de ventas
- * Si el backend no tiene endpoints específicos de reportes,
- * usamos el listado general de ventas y procesamos en el frontend.
- */
+
 
 // Obtener todas las ventas para reportes
 export const getAllSales = (): AxiosCall<BackendSalesResponse> => {
@@ -19,12 +15,36 @@ export const getAllSales = (): AxiosCall<BackendSalesResponse> => {
     };
 };
 
-// Obtener ventas en un rango de fechas (asumiendo que el backend lo soporta)
-export const getSalesByRange = (startDate: string, endDate: string): AxiosCall<BackendSalesResponse> => {
+// Obtener ventas en un rango de fechas
+export const getSalesByRange = (from: string, to: string): AxiosCall<BackendSalesResponse> => {
     const controller = loadAbort();
     return {
-        call: apiAxiosInstance.get<BackendSalesResponse>('/sales/range', {
-            params: { startDate, endDate },
+        call: apiAxiosInstance.get<BackendSalesResponse>('/sales/reports/sales', {
+            params: { from, to },
+            signal: controller.signal
+        }),
+        controller
+    };
+};
+
+// Obtener los productos más vendidos en un rango de fechas
+export const getTopProductsByRange = (from: string, to: string, limit: number = 3): AxiosCall<any> => {
+    const controller = loadAbort();
+    return {
+        call: apiAxiosInstance.get<any>('/sales/reports/top-products', {
+            params: { from, to, limit },
+            signal: controller.signal
+        }),
+        controller
+    };
+};
+
+// Obtener reporte de ventas diarias en un rango de fechas
+export const getDailySalesReport = (from: string, to: string): AxiosCall<any> => {
+    const controller = loadAbort();
+    return {
+        call: apiAxiosInstance.get<any>('/sales/reports/daily-sales', {
+            params: { from, to },
             signal: controller.signal
         }),
         controller

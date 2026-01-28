@@ -4,40 +4,43 @@ import type { Product } from './product.models';
 export interface CartItem {
     product: Product;
     quantity: number;
-    subtotal: number; // precio * cantidad
+    iva: number;
+    subTotal: number;
 }
 
-// Modelo para crear una venta en el backend (Debe coincidir con SaleRequest.java)
+
 export interface SaleRequest {
-    atmId: number;   // ID del cajero/usuario
-    items: SaleItemRequest[]; // Antes era 'details'
+    atmId: number;   
+    items: SaleItemRequest[]; 
 }
 
-// Item de la venta (Debe coincidir con SaleDetailRequest.java)
+
 export interface SaleItemRequest {
     productId: number;
     amount: number;
+    subTotal: number;
+    iva: number;
 }
 
 
-// Representación de una venta devuelta por el backend
 export interface SaleResponse {
     id: number;
-    date: string; // ISO LocalDateTime
+    date: string;
     total: number;
     details: SaleDetail[];
 }
 
-// Detalle de producto en una venta devuelta por el backend
+
 export interface SaleDetail {
     productId: number;
     productName: string;
     amount: number;
     unitPrice: number;
-    subtotal: number;
+    iva: number;
+    subTotal: number;
 }
 
-// Respuesta envuelta del backend para ventas
+
 export interface BackendSalesResponse {
     data: SaleResponse[];
     message: string;
@@ -45,6 +48,5 @@ export interface BackendSalesResponse {
     httpStatus: string;
 }
 
-// Estado vacío del carrito
-export const CartEmptyState: CartItem[] = [];
 
+export const CartEmptyState: CartItem[] = [];
