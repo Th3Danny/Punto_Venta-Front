@@ -13,7 +13,7 @@ export const Navbar = () => {
     // Obtener cantidad de items en el carrito desde Redux
     const cartItemsCount = useSelector(selectCartItemsCount);
 
-    // Obtener usuario de Redux (fuente de verdad única)
+    // Obtener usuario de Redux 
     const user = useSelector((state: any) => state.user);
 
     // Rutas donde no se debe mostrar el Navbar
@@ -21,7 +21,7 @@ export const Navbar = () => {
     const shouldShowNavbar = !hideNavbarRoutes.includes(location.pathname) && user?.token && user?.id;
 
     const handleLogout = () => {
-        // Limpiar usuario de Redux (esto también limpia localStorage)
+        // Limpiar usuario de Redux 
         dispatch(resetUser());
         // Redirigir al login
         navigate('/');
@@ -44,14 +44,14 @@ export const Navbar = () => {
                 </Button>
 
                 {/* Productos: solo para MANAGER y ADMIN */}
-                {['ADMIN', 'MANAGER', 'GERENTE'].includes((user?.role || '').toString().toUpperCase()) && (
+                {['ADMIN', 'MANAGER', 'CASHIER'].includes((user?.role || '').toString().toUpperCase()) && (
                     <Button color="inherit" onClick={() => navigate('/product')}>
                         Productos
                     </Button>
                 )}
 
                 {/* Mostrar Reportes solo a ADMIN y MANAGER */}
-                {['ADMIN', 'MANAGER', 'GERENTE'].includes((user?.role || '').toString().toUpperCase()) && (
+                {['ADMIN', 'MANAGER', 'CASHIER'].includes((user?.role || '').toString().toUpperCase()) && (
                     <Button color="inherit" onClick={() => navigate('/reports')}>
                         Reportes
                     </Button>

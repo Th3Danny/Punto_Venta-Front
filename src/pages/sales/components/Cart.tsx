@@ -1,6 +1,4 @@
 import {
-    Card,
-    CardContent,
     Typography,
     List,
     ListItem,
@@ -22,53 +20,59 @@ interface CartProps {
 export const Cart = ({ items, onIncrement, onDecrement, onRemove }: CartProps) => {
     if (items.length === 0) {
         return (
-            <Card>
-                <CardContent>
-                    <Typography variant="h6" gutterBottom>
-                        Carrito de Compras
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary" align="center" sx={{ py: 4 }}>
+            <Box sx={{ p: 2 }}>
+                <Typography variant="h6" fontWeight="bold" gutterBottom color="primary">
+                    Carrito de Compras
+                </Typography>
+                <Box sx={{ py: 6, textAlign: 'center' }}>
+                    <Typography variant="body1" color="text.secondary">
                         El carrito está vacío
                     </Typography>
-                </CardContent>
-            </Card>
+                </Box>
+            </Box>
         );
     }
 
     return (
-        <Card>
-            <CardContent>
-                <Typography variant="h6" gutterBottom>
-                    Carrito de Compras ({items.length} {items.length === 1 ? 'producto' : 'productos'})
-                </Typography>
+        <Box sx={{ p: 2 }}>
+            <Typography variant="h6" fontWeight="bold" gutterBottom color="primary">
+                Carrito ({items.length})
+            </Typography>
 
-                <List>
-                    {items.map((item, index) => (
-                        <Box key={item.product.id}>
-                            {index > 0 && <Divider />}
-                            <ListItem
-                                secondaryAction={
-                                    <IconButton
-                                        edge="end"
-                                        aria-label="delete"
-                                        onClick={() => onRemove(item.product.id)}
-                                        color="error"
-                                    >
-                                        <Delete />
-                                    </IconButton>
+            <List sx={{ maxHeight: '50vh', overflowY: 'auto', px: 1 }}>
+                {items.map((item, index) => (
+                    <Box key={item.product.id}>
+                        {index > 0 && <Divider sx={{ opacity: 0.5 }} />}
+                        <ListItem
+                            disableGutters
+                            secondaryAction={
+                                <IconButton
+                                    edge="end"
+                                    onClick={() => onRemove(item.product.id)}
+                                    color="error"
+                                    size="small"
+                                >
+                                    <Delete fontSize="small" />
+                                </IconButton>
+                            }
+                        >
+                            <ListItemText
+                                primary={
+                                    <Typography fontWeight="bold" variant="body1">
+                                        {item.product.name}
+                                    </Typography>
                                 }
-                            >
-                                <ListItemText
-                                    primary={item.product.name}
-                                    secondaryTypographyProps={{ component: 'div' }} // Evita error de anidamiento <p> en <p>
-                                    secondary={
-                                        <Box>
-                                            <Typography component="div" variant="body2" color="text.secondary">
-                                                ${item.product.price.toFixed(2)} c/u
-                                            </Typography>
-
-                                            {/* Controles de cantidad */}
-                                            <Box sx={{ display: 'flex', alignItems: 'center', mt: 1, gap: 1 }}>
+                                secondaryTypographyProps={{ component: 'div' }}
+                                secondary={
+                                    <Box sx={{ mt: 1 }}>
+                                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                            <Box sx={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                bgcolor: 'rgba(111, 78, 55, 0.05)',
+                                                borderRadius: 2,
+                                                px: 0.5
+                                            }}>
                                                 <IconButton
                                                     size="small"
                                                     onClick={() => onDecrement(item.product.id)}
@@ -77,7 +81,7 @@ export const Cart = ({ items, onIncrement, onDecrement, onRemove }: CartProps) =
                                                     <Remove fontSize="small" />
                                                 </IconButton>
 
-                                                <Typography component="span" variant="body1" sx={{ minWidth: 30, textAlign: 'center' }}>
+                                                <Typography variant="body2" sx={{ minWidth: 25, textAlign: 'center', fontWeight: 'bold' }}>
                                                     {item.quantity}
                                                 </Typography>
 
@@ -87,21 +91,19 @@ export const Cart = ({ items, onIncrement, onDecrement, onRemove }: CartProps) =
                                                 >
                                                     <Add fontSize="small" />
                                                 </IconButton>
-
-                                                <Typography component="span" variant="body1" sx={{ ml: 2, fontWeight: 'bold' }}>
-                                                    ${item.subTotal.toFixed(2)}
-                                                </Typography>
                                             </Box>
+                                            <Typography variant="body1" fontWeight="bold" color="primary">
+                                                ${item.subTotal.toFixed(2)}
+                                            </Typography>
                                         </Box>
-                                    }
-                                />
-
-                            </ListItem>
-                        </Box>
-                    ))}
-                </List>
-            </CardContent>
-        </Card>
+                                    </Box>
+                                }
+                            />
+                        </ListItem>
+                    </Box>
+                ))}
+            </List>
+        </Box>
     );
 };
 

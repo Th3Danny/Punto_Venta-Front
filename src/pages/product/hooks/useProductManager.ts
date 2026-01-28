@@ -7,7 +7,7 @@ import {
     updateProduct,
     deleteProduct
 } from '@/services/product.services';
-import { productsAdapter } from '@/adapters';
+import { productManagerListAdapter } from '../adapters/product.adapter';
 import type { Product, CreateProductCredentials } from '@/models';
 import axios from 'axios';
 
@@ -29,7 +29,7 @@ export const useProductManager = () => {
                 ? responseData.data
                 : (Array.isArray(responseData) ? responseData : []);
 
-            setProducts(productsAdapter(productList));
+            setProducts(productManagerListAdapter(productList));
 
             if (responseData.message && responseData.success) {
                 // Opcional: mostrar mensaje de carga exitosa
@@ -76,7 +76,7 @@ export const useProductManager = () => {
                 }
             }
             handleCloseDialog();
-            loadProducts(); 
+            loadProducts();
         } catch (error: any) {
             if (axios.isCancel(error)) return;
             const msg = error.response?.status === 403
@@ -94,7 +94,7 @@ export const useProductManager = () => {
             const response = await callEndpoint(deleteProduct(id));
             if (response.data.success) {
                 enqueueSnackbar(response.data.message || 'Producto eliminado', { variant: 'success' });
-                loadProducts(); 
+                loadProducts();
             }
         } catch (error: any) {
             if (axios.isCancel(error)) return;
