@@ -4,21 +4,49 @@ import type { Product } from './product.models';
 export interface CartItem {
     product: Product;
     quantity: number;
-    subtotal: number; // precio * cantidad
+    iva: number;
+    subTotal: number;
 }
 
-// Modelo para crear una venta en el backend
+
 export interface SaleRequest {
-    items: SaleItemRequest[];
-    total: number;
+    atmId: number;   
+    items: SaleItemRequest[]; 
 }
 
-// Item individual de la venta para enviar al backend
+
 export interface SaleItemRequest {
     productId: number;
-    quantity: number;
-    price: number;
+    amount: number;
+    subTotal: number;
+    iva: number;
 }
 
-// Estado vacío del carrito
+
+export interface SaleResponse {
+    id: number;
+    date: string;
+    total: number;
+    details: SaleDetail[];
+}
+
+
+export interface SaleDetail {
+    productId: number;
+    productName: string;
+    amount: number;
+    unitPrice: number;
+    iva: number;
+    subTotal: number;
+}
+
+
+export interface BackendSalesResponse {
+    data: SaleResponse[];
+    message: string;
+    success: boolean;
+    httpStatus: string;
+}
+
+
 export const CartEmptyState: CartItem[] = [];

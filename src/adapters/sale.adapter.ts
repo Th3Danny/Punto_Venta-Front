@@ -1,17 +1,26 @@
 import type { CartItem, SaleRequest, SaleItemRequest } from '@/models';
 
 // Adaptador para convertir el carrito a formato de venta para el backend
-export const cartToSaleAdapter = (cartItems: CartItem[]): SaleRequest => {
-    const items: SaleItemRequest[] = cartItems.map(item => ({
-        productId: item.product.id,
-        quantity: item.quantity,
-        price: item.product.price
-    }));
+export const cartToSaleAdapter = (cartItems: CartItem[], userId: number): SaleRequest => {
+    const items: SaleItemRequest[] = cartItems.map(item => {
+        const unitPrice = item.product.price;
+        const amount = item.quantity;
+        const subTotal = unitPrice * amount;
+        const iva = subTotal * 0.16; // 16% IVA
 
-    const total = cartItems.reduce((sum, item) => sum + item.subtotal, 0);
+        return {
+            productId: item.product.id,
+            amount,
+            subTotal,
+            iva
+        };
+    });
 
     return {
-        items,
-        total
+        atmId: userId,
+        items
     };
 };
+
+
+

@@ -15,15 +15,18 @@ export const cartSlice = createSlice({
             const existingItem = state.find(item => item.product.id === product.id);
 
             if (existingItem) {
-                // Si existe, incrementar cantidad
+                // Si existe, incrementar cantidad y recalcular subtotal e iva
                 existingItem.quantity += 1;
-                existingItem.subtotal = existingItem.quantity * existingItem.product.price;
+                existingItem.subTotal = existingItem.quantity * existingItem.product.price;
+                existingItem.iva = existingItem.subTotal * 0.16;
             } else {
                 // Si no existe, agregarlo con cantidad 1
+                const subTotal = product.price;
                 state.push({
                     product,
                     quantity: 1,
-                    subtotal: product.price
+                    subTotal: subTotal,
+                    iva: subTotal * 0.16
                 });
             }
         },
@@ -41,7 +44,8 @@ export const cartSlice = createSlice({
 
             if (item && quantity > 0) {
                 item.quantity = quantity;
-                item.subtotal = item.quantity * item.product.price;
+                item.subTotal = item.quantity * item.product.price;
+                item.iva = item.subTotal * 0.16;
             }
         },
 
@@ -52,7 +56,8 @@ export const cartSlice = createSlice({
 
             if (item) {
                 item.quantity += 1;
-                item.subtotal = item.quantity * item.product.price;
+                item.subTotal = item.quantity * item.product.price;
+                item.iva = item.subTotal * 0.16;
             }
         },
 
@@ -63,7 +68,8 @@ export const cartSlice = createSlice({
 
             if (item && item.quantity > 1) {
                 item.quantity -= 1;
-                item.subtotal = item.quantity * item.product.price;
+                item.subTotal = item.quantity * item.product.price;
+                item.iva = item.subTotal * 0.16;
             }
         },
 
@@ -84,7 +90,7 @@ export const {
 
 // Selector para obtener el total del carrito
 export const selectCartTotal = (state: { cart: CartItem[] }): number =>
-    state.cart.reduce((total, item) => total + item.subtotal, 0);
+    state.cart.reduce((total, item) => total + item.subTotal, 0);
 
 // Selector para obtener la cantidad de items en el carrito
 export const selectCartItemsCount = (state: { cart: CartItem[] }): number =>

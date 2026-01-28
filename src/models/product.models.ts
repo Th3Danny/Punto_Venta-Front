@@ -1,29 +1,28 @@
 // Modelo de datos para productos
-export interface Product {
-    id: number; 
+export interface ProductCredentials {
+    id: number;
     name: string;
     description: string;
     price: number;
     active: boolean;
+    stock: number;
 }
+
+export type Product = ProductCredentials;
+
 
 // Interfaces para crear/actualizar productos
-export interface CreateProductData {
+export interface CreateProductCredentials {
     name: string;
     description: string;
     price: number;
+    stock: number;
     active: boolean;
 }
 
-// Respuesta del backend al crear producto
-export interface ProductResponse {
-    data: {
-        id: number;
-        name: string;
-        description: string;
-        price: number;
-        active: boolean;
-    };
+// Respuesta del backend al gestionar productos
+export interface BackendProductResponse {
+    data: ProductCredentials | ProductCredentials[];
     message: string;
     success: boolean;
     httpStatus: string;

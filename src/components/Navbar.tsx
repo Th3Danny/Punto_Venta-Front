@@ -12,10 +12,10 @@ export const Navbar = () => {
 
     // Obtener cantidad de items en el carrito desde Redux
     const cartItemsCount = useSelector(selectCartItemsCount);
-    
+
     // Obtener usuario de Redux (fuente de verdad única)
     const user = useSelector((state: any) => state.user);
-    
+
     // Rutas donde no se debe mostrar el Navbar
     const hideNavbarRoutes = ['/', '/register'];
     const shouldShowNavbar = !hideNavbarRoutes.includes(location.pathname) && user?.token && user?.id;
@@ -43,13 +43,26 @@ export const Navbar = () => {
                     Punto de Venta
                 </Button>
 
-                <Button color="inherit" onClick={() => navigate('/products')}>
-                    Productos
-                </Button>
+                {/* Productos: solo para MANAGER y ADMIN */}
+                {['ADMIN', 'MANAGER', 'GERENTE'].includes((user?.role || '').toString().toUpperCase()) && (
+                    <Button color="inherit" onClick={() => navigate('/product')}>
+                        Productos
+                    </Button>
+                )}
 
-                <Button color="inherit" onClick={() => navigate('/reports')}>
-                    Reportes
-                </Button>
+                {/* Mostrar Reportes solo a ADMIN y MANAGER */}
+                {['ADMIN', 'MANAGER', 'GERENTE'].includes((user?.role || '').toString().toUpperCase()) && (
+                    <Button color="inherit" onClick={() => navigate('/reports')}>
+                        Reportes
+                    </Button>
+                )}
+
+                {/* Usuarios: solo ADMIN */}
+                {['ADMIN'].includes((user?.role || '').toString().toUpperCase()) && (
+                    <Button color="inherit" onClick={() => navigate('/users')}>
+                        Usuarios
+                    </Button>
+                )}
 
                 {/* Badge con cantidad de items en carrito */}
                 <IconButton color="inherit" onClick={() => navigate('/sales')}>
