@@ -26,6 +26,7 @@ export const ProductDialog = ({ open, onClose, onSave, product, loading }: Produ
         name: '',
         description: '',
         price: 0,
+        stock: 0,
         active: true
     });
 
@@ -35,6 +36,7 @@ export const ProductDialog = ({ open, onClose, onSave, product, loading }: Produ
                 name: product.name,
                 description: product.description,
                 price: product.price,
+                stock: product.stock,
                 active: product.active
             });
         } else {
@@ -42,6 +44,7 @@ export const ProductDialog = ({ open, onClose, onSave, product, loading }: Produ
                 name: '',
                 description: '',
                 price: 0,
+                stock: 0,
                 active: true
             });
         }
@@ -51,7 +54,7 @@ export const ProductDialog = ({ open, onClose, onSave, product, loading }: Produ
         const { name, value, type, checked } = e.target;
         setFormData(prev => ({
             ...prev,
-            [name]: type === 'checkbox' ? checked : (name === 'price' ? Number(value) : value)
+            [name]: type === 'checkbox' ? checked : (name === 'price' || name === 'stock' ? Number(value) : value)
         }));
     };
 
@@ -102,6 +105,19 @@ export const ProductDialog = ({ open, onClose, onSave, product, loading }: Produ
                                 onChange={handleChange}
                                 margin="normal"
                                 inputProps={{ step: "0.01", min: "0" }}
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                                name="stock"
+                                label="Stock Inicial"
+                                type="number"
+                                fullWidth
+                                required
+                                value={formData.stock}
+                                onChange={handleChange}
+                                margin="normal"
+                                inputProps={{ min: "0" }}
                             />
                         </Grid>
                         <Grid item xs={12} sm={6}>

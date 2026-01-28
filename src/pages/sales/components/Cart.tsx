@@ -89,7 +89,7 @@ export const Cart = ({ items, onIncrement, onDecrement, onRemove }: CartProps) =
                                                 </IconButton>
 
                                                 <Typography component="span" variant="body1" sx={{ ml: 2, fontWeight: 'bold' }}>
-                                                    ${item.subtotal.toFixed(2)}
+                                                    ${item.subTotal.toFixed(2)}
                                                 </Typography>
                                             </Box>
                                         </Box>

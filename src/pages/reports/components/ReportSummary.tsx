@@ -1,11 +1,7 @@
 import { Grid, Paper, Typography, Box } from '@mui/material';
 import { TrendingUp, ShoppingBag, Receipt } from '@mui/icons-material';
+import type { ReportSummaryProps } from '@/models';
 
-interface ReportSummaryProps {
-    totalSales: number;
-    totalOrders: number;
-    avgOrderValue: number;
-}
 
 export const ReportSummary = ({ totalSales, totalOrders, avgOrderValue }: ReportSummaryProps) => {
     return (
