@@ -4,7 +4,6 @@ import { type ReactNode } from 'react';
 
 interface ProtectedRouteProps {
     children: ReactNode;
-  
     allowedRoles?: string[];
 }
 
