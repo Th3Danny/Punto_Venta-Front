@@ -1,4 +1,4 @@
-// Modelos de autenticación
+
 
 export interface LoginCredentials {
     email: string;
@@ -11,7 +11,6 @@ export interface RegisterCredentials {
     password: string;
 }
 
-// Respuesta real del backend
 export interface BackendAuthResponse {
     data: {
         id_user: number;

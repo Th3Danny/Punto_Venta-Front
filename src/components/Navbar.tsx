@@ -12,22 +12,22 @@ export const Navbar = () => {
 
     // Obtener cantidad de items en el carrito desde Redux
     const cartItemsCount = useSelector(selectCartItemsCount);
-    
-    // Obtener usuario de Redux (fuente de verdad única)
+
+    // Obtener usuario de Redux 
     const user = useSelector((state: any) => state.user);
-    
+
     // Rutas donde no se debe mostrar el Navbar
     const hideNavbarRoutes = ['/', '/register'];
     const shouldShowNavbar = !hideNavbarRoutes.includes(location.pathname) && user?.token && user?.id;
 
     const handleLogout = () => {
-        // Limpiar usuario de Redux (esto también limpia localStorage)
+       
         dispatch(resetUser());
-        // Redirigir al login
+       
         navigate('/');
     };
 
-    // No mostrar Navbar en login/register o si no hay usuario autenticado
+  
     if (!shouldShowNavbar) {
         return null;
     }
@@ -43,15 +43,24 @@ export const Navbar = () => {
                     Punto de Venta
                 </Button>
 
-                <Button color="inherit" onClick={() => navigate('/products')}>
-                    Productos
-                </Button>
+                {['ADMIN', 'MANAGER', 'CASHIER'].includes((user?.role || '').toString().toUpperCase()) && (
+                    <Button color="inherit" onClick={() => navigate('/product')}>
+                        Productos
+                    </Button>
+                )}
 
-                <Button color="inherit" onClick={() => navigate('/reports')}>
-                    Reportes
-                </Button>
+                {['ADMIN', 'MANAGER', 'CASHIER'].includes((user?.role || '').toString().toUpperCase()) && (
+                    <Button color="inherit" onClick={() => navigate('/reports')}>
+                        Reportes
+                    </Button>
+                )}
 
-                {/* Badge con cantidad de items en carrito */}
+                {['ADMIN'].includes((user?.role || '').toString().toUpperCase()) && (
+                    <Button color="inherit" onClick={() => navigate('/users')}>
+                        Usuarios
+                    </Button>
+                )}
+
                 <IconButton color="inherit" onClick={() => navigate('/sales')}>
                     <Badge badgeContent={cartItemsCount} color="error">
                         <ShoppingCart />
