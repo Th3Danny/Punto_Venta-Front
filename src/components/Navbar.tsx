@@ -21,13 +21,13 @@ export const Navbar = () => {
     const shouldShowNavbar = !hideNavbarRoutes.includes(location.pathname) && user?.token && user?.id;
 
     const handleLogout = () => {
-        // Limpiar usuario de Redux 
+       
         dispatch(resetUser());
-        // Redirigir al login
+       
         navigate('/');
     };
 
-    // No mostrar Navbar en login/register o si no hay usuario autenticado
+  
     if (!shouldShowNavbar) {
         return null;
     }
@@ -43,28 +43,24 @@ export const Navbar = () => {
                     Punto de Venta
                 </Button>
 
-                {/* Productos: solo para MANAGER y ADMIN */}
                 {['ADMIN', 'MANAGER', 'CASHIER'].includes((user?.role || '').toString().toUpperCase()) && (
                     <Button color="inherit" onClick={() => navigate('/product')}>
                         Productos
                     </Button>
                 )}
 
-                {/* Mostrar Reportes solo a ADMIN y MANAGER */}
                 {['ADMIN', 'MANAGER', 'CASHIER'].includes((user?.role || '').toString().toUpperCase()) && (
                     <Button color="inherit" onClick={() => navigate('/reports')}>
                         Reportes
                     </Button>
                 )}
 
-                {/* Usuarios: solo ADMIN */}
                 {['ADMIN'].includes((user?.role || '').toString().toUpperCase()) && (
                     <Button color="inherit" onClick={() => navigate('/users')}>
                         Usuarios
                     </Button>
                 )}
 
-                {/* Badge con cantidad de items en carrito */}
                 <IconButton color="inherit" onClick={() => navigate('/sales')}>
                     <Badge badgeContent={cartItemsCount} color="error">
                         <ShoppingCart />

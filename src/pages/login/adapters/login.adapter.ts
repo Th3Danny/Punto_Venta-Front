@@ -31,6 +31,7 @@ export const loginAdapter = (backendResponse: BackendAuthResponse): User => {
         name: email.split('@')[0] || `User ${userId}`,
         email: email,
         token: token,
-        role: role
+        role: role, // El primer rol como string para compatibilidad
+        roles: decodedToken?.roles?.map((name: string, index: number) => ({ id: index, name })) || []
     };
 };
