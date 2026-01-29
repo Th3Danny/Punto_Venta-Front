@@ -21,13 +21,13 @@ export const Navbar = () => {
     const shouldShowNavbar = !hideNavbarRoutes.includes(location.pathname) && user?.token && user?.id;
 
     const handleLogout = () => {
-       
+
         dispatch(resetUser());
-       
+
         navigate('/');
     };
 
-  
+
     if (!shouldShowNavbar) {
         return null;
     }
@@ -35,7 +35,12 @@ export const Navbar = () => {
     return (
         <AppBar position="sticky" color="primary">
             <Toolbar>
-                <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                <Typography
+                    variant="h6"
+                    component="div"
+                    sx={{ flexGrow: 1, cursor: 'pointer', userSelect: 'none' }}
+                    onClick={() => navigate('/home')}
+                >
                     Cafetería KFE
                 </Typography>
 
@@ -49,7 +54,7 @@ export const Navbar = () => {
                     </Button>
                 )}
 
-                {['ADMIN', 'MANAGER', 'CASHIER'].includes((user?.role || '').toString().toUpperCase()) && (
+                {['ADMIN', 'MANAGER'].includes((user?.role || '').toString().toUpperCase()) && (
                     <Button color="inherit" onClick={() => navigate('/reports')}>
                         Reportes
                     </Button>
