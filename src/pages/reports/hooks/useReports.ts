@@ -4,7 +4,7 @@ import { useFetchAndLoad } from '@/hooks';
 import { getSalesByRange, getTopProductsByRange, getDailySalesReport } from '@/services/report.services';
 import type { SaleResponse, TopProduct, ChartData } from '@/models';
 import axios from 'axios';
-import { topProductAdapter, dailyChartAdapter } from '@/adapters/reports';
+import { reportsTopProductAdapter, reportsDailyChartAdapter } from '../adapters/reports.adapter';
 
 export const useReports = () => {
     const { loading, callEndpoint } = useFetchAndLoad();
@@ -30,11 +30,11 @@ export const useReports = () => {
 
             if (salesRes.data.success) setSales(salesRes.data.data || []);
             if (topRes.data.success) {
-                const formattedTop = (topRes.data.data || []).map((item: any) => topProductAdapter(item));
+                const formattedTop = (topRes.data.data || []).map((item: any) => reportsTopProductAdapter(item));
                 setTopProducts(formattedTop);
             }
             if (chartRes.data.success) {
-                const formattedChart = (chartRes.data.data || []).map((item: any) => dailyChartAdapter(item));
+                const formattedChart = (chartRes.data.data || []).map((item: any) => reportsDailyChartAdapter(item));
                 setSalesChartData(formattedChart);
             }
 
